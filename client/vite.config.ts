@@ -17,6 +17,7 @@ export default defineConfig({
       src: "/src",
       components: "/src/components",
       assets: "/src/assets",
+      pages: "/src/pages",
     },
   },
   build: {

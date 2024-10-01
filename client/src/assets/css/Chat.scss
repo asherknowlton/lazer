@@ -1,0 +1,36 @@
+.chat {
+  display: flex;
+  position: relative;
+  padding-top: 1rem;
+  height: 15vh;
+  text-align: left;
+}
+
+.main-text-entry {
+  width: 100%;
+  border: green;
+  border-style: solid;
+  border-width: 3px 1px 3px 3px;
+  padding: 1rem;
+}
+
+.beam-button {
+  aspect-ratio: 1/1;
+  background-color: black;
+  color: green;
+  border: green;
+  border-style: solid;
+  border-width: 3px 3px 3px 1px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: green;
+    color: black;
+  }
+
+  img {
+    height: 1rem;
+    position: relative;
+    top: 0.5rem;
+  }
+}

@@ -1,0 +1,22 @@
+#root {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 24rem;
+}
+
+.header {
+  margin-top: 1rem;
+  font-size: 2rem;
+  height: 5vh;
+}
+
+.channel-content {
+  background-color: black;
+  border-color: green;
+  border-style: solid;
+  height: 75vh;
+  width: calc(100vw - 30rem);
+}

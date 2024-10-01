@@ -1,0 +1,17 @@
+.contact-list {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem;
+  padding: 1rem;
+}
+
+.contact {
+  width: 100%;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.selected {
+  background-color: green;
+  color: black;
+}
