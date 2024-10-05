@@ -1,9 +1,11 @@
 import { useState, SyntheticEvent } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "src/hooks/useAuth";
 
-const Register = () => {
+const RegisterForm = () => {
+  const auth = useAuth();
   const navigate = useNavigate();
+
   const [data, setData] = useState({
     name: "",
     email: "",
@@ -12,23 +14,16 @@ const Register = () => {
 
   const registerUser = async (e: SyntheticEvent) => {
     e.preventDefault();
-    const { name, email, password } = data;
-    try {
-      const { data } = await axios.post("/api/register", {
-        name,
-        email,
-        password,
-      });
-      if (data.error) {
-        console.log(data.error);
-      } else {
-        console.log("registered!");
-        navigate("/login");
-      }
-    } catch (error) {
-      console.log("registerUser error:");
-      console.log(error);
-    }
+    const target = e.target as HTMLInputElement & {
+      name: { value: string };
+      email: { value: string };
+      password: { value: string };
+    };
+    auth.registerUser(
+      target.name.value,
+      target.email.value,
+      target.password.value
+    );
   };
 
   return (
@@ -37,6 +32,7 @@ const Register = () => {
         <label>Name</label>
         <input
           type="text"
+          name="name"
           placeholder="enter name"
           value={data.name}
           onChange={(e) => setData({ ...data, name: e.target.value })}
@@ -44,6 +40,7 @@ const Register = () => {
         <label>Email</label>
         <input
           type="email"
+          name="email"
           placeholder="enter email"
           value={data.email}
           onChange={(e) => setData({ ...data, email: e.target.value })}
@@ -51,6 +48,7 @@ const Register = () => {
         <label>Password</label>
         <input
           type="password"
+          name="password"
           placeholder="enter password"
           value={data.password}
           onChange={(e) => setData({ ...data, password: e.target.value })}
@@ -61,4 +59,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default RegisterForm;

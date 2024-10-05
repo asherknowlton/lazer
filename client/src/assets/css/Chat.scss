@@ -12,6 +12,13 @@
   border-style: solid;
   border-width: 3px 1px 3px 3px;
   padding: 1rem;
+
+  &:focus {
+    outline-color: green;
+    outline-style: dashed;
+    outline-width: 3px;
+    outline-offset: -8px;
+  }
 }
 
 .beam-button {

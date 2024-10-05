@@ -1,9 +1,11 @@
-import { useState, SyntheticEvent } from "react";
-import axios from "axios";
+import { useState, SyntheticEvent, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "src/hooks/useAuth";
 
-const Login = () => {
+const LoginForm = () => {
+  const auth = useAuth();
   const navigate = useNavigate();
+
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -11,22 +13,13 @@ const Login = () => {
 
   const loginUser = async (e: SyntheticEvent) => {
     e.preventDefault();
-    const { email, password } = data;
-    try {
-      const { data } = await axios.post("/api/login", {
-        email,
-        password,
-      });
-      if (data.error) {
-        console.log(data.error);
-      } else {
-        setData({ ...data, password: "" });
-        navigate("/");
-      }
-    } catch (error) {
-      console.log("loginUser error");
-      console.log(error);
-    }
+    const target = e.target as HTMLInputElement & {
+      email: { value: string };
+      password: { value: string };
+    };
+    auth.loginUser(target.email.value, target.password.value).then(() => {
+      navigate("/");
+    });
   };
 
   return (
@@ -35,6 +28,7 @@ const Login = () => {
         <label>Email</label>
         <input
           type="email"
+          name="email"
           placeholder="enter email"
           value={data.email}
           onChange={(e) => setData({ ...data, email: e.target.value })}
@@ -42,6 +36,7 @@ const Login = () => {
         <label>Password</label>
         <input
           type="password"
+          name="password"
           placeholder="enter password"
           value={data.password}
           onChange={(e) => setData({ ...data, password: e.target.value })}
@@ -52,4 +47,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginForm;

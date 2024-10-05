@@ -1,8 +1,9 @@
-import { useContext, useState } from "react";
-import { UserContext } from "src/context/userContext";
+import { useState } from "react";
+import { useAuth } from "src/hooks/useAuth";
 import Chat from "components/Chat";
 import ContactList from "components/ContactList";
 import "assets/css/ChatWindow.scss";
+import ChatHistory from "src/components/ChatHistory";
 
 interface contactI {
   id: number;
@@ -11,7 +12,7 @@ interface contactI {
 }
 
 const ChatWindow = () => {
-  const { user } = useContext(UserContext);
+  const auth = useAuth();
 
   const [to, setTo] = useState<contactI>(contacts[0]);
   const [contentMap, setContentMap] = useState(new Map());
@@ -21,28 +22,30 @@ const ChatWindow = () => {
 
   return (
     <>
-      {user && (
-        <>
-          <div className="sidebar">
-            <ContactList
-              contacts={contacts}
-              selectedContact={to}
-              onSelect={(contact: contactI) => setTo(contact)}
-            />
+      {auth.user && (
+        <div className="chat-window">
+          <div className="chat-header">{to.name}</div>
+          <div className="chat-body">
+            <div className="sidebar">
+              <ContactList
+                contacts={contacts}
+                selectedContact={to}
+                onSelect={(contact: contactI) => setTo(contact)}
+              />
+            </div>
+            <div className="chat-content">
+              <ChatHistory />
+              <Chat
+                key={to.id}
+                contact={to}
+                content={contentMap.get(to)}
+                updateContent={updateContent}
+              />
+            </div>
           </div>
-          <div className="main-content">
-            <div className="header">{to.name}</div>
-            <div className="channel-content" />
-            <Chat
-              key={to.id}
-              contact={to}
-              content={contentMap.get(to)}
-              updateContent={updateContent}
-            />
-          </div>
-        </>
+        </div>
       )}
-      {!user && <h1>DISQUALIFIED</h1>}
+      {!auth.user && <h1>ya gotta login first ya hoser</h1>}
     </>
   );
 };

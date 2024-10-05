@@ -1,10 +1,10 @@
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import Register from "pages/Register";
+import RegisterForm from "./pages/RegisterForm";
 import ChatWindow from "pages/ChatWindow";
-import Login from "pages/Login";
+import LoginForm from "./pages/LoginForm";
 import axios from "axios";
-import UserContextProvider from "./context/userContext";
+import { AuthProvider } from "./hooks/useAuth";
 import "assets/css/App.scss";
 
 axios.defaults.baseURL = "http://localhost:8000";
@@ -12,14 +12,14 @@ axios.defaults.withCredentials = true;
 
 const App = () => {
   return (
-    <UserContextProvider>
+    <AuthProvider>
       <Navbar />
       <Routes>
         <Route path="/" element={<ChatWindow />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<RegisterForm />} />
+        <Route path="/login" element={<LoginForm />} />
       </Routes>
-    </UserContextProvider>
+    </AuthProvider>
   );
 };
 
