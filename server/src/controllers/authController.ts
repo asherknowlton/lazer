@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { UserModel } from "src/models/user";
+import { MessageModel } from "src/models/message";
 import { default as jwt } from "jsonwebtoken";
 import { hashPassword, comparePasswords } from "src/helpers/auth";
 
@@ -36,7 +37,7 @@ const registerUser = async (req: Request, res: Response): Promise<any> => {
 
     return res.json(user);
   } catch (error) {
-    console.log("server error");
+    console.log("registerUser server error");
   }
 };
 
@@ -63,7 +64,7 @@ const loginUser = async (req: Request, res: Response): Promise<any> => {
         {},
         (err, token) => {
           if (err) throw err;
-          res.cookie("token", token).json(user);
+          res.cookie("USER_SESSION", token).json(user);
         }
       );
     }
@@ -77,10 +78,26 @@ const loginUser = async (req: Request, res: Response): Promise<any> => {
   }
 };
 
+const sendMessage = async (req: Request, res: Response): Promise<any> => {
+  try {
+    const { senderId, receiverId, message } = req.body;
+
+    const msg = await MessageModel.create({
+      senderId,
+      receiverId,
+      message,
+    });
+
+    return res.json(msg);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const getProfile = async (req: Request, res: Response): Promise<any> => {
-  const { token } = req.cookies;
-  if (token) {
-    jwt.verify(token, process.env.JWT_SECRET!, {}, (err, user) => {
+  const { USER_SESSION } = req.cookies;
+  if (USER_SESSION) {
+    jwt.verify(USER_SESSION, process.env.JWT_SECRET!, {}, (err, user) => {
       if (err) throw err;
       res.json(user);
     });
@@ -89,4 +106,4 @@ const getProfile = async (req: Request, res: Response): Promise<any> => {
   }
 };
 
-export { registerUser, loginUser, getProfile };
+export { registerUser, loginUser, sendMessage, getProfile };

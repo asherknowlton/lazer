@@ -3,6 +3,7 @@ import cors from "cors";
 import {
   registerUser,
   loginUser,
+  sendMessage,
   getProfile,
 } from "src/controllers/authController";
 
@@ -18,6 +19,7 @@ router.use(
 
 router.post("/api/register", registerUser);
 router.post("/api/login", loginUser);
+router.post("/api/send_message", sendMessage);
 router.get("/api/me", getProfile);
 
 export default router;
