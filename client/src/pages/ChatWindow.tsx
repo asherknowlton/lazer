@@ -4,6 +4,7 @@ import Chat from "components/Chat";
 import ContactList from "components/ContactList";
 import "assets/css/ChatWindow.scss";
 import ChatHistory from "src/components/ChatHistory";
+import ChatHeader from "src/components/ChatHeader";
 
 interface contactI {
   id: number;
@@ -24,7 +25,7 @@ const ChatWindow = () => {
     <>
       {auth.user && (
         <div className="chat-window">
-          <div className="chat-header">{to.name}</div>
+          <ChatHeader contactName={to.name} />
           <div className="chat-body">
             <div className="sidebar">
               <ContactList
@@ -34,7 +35,7 @@ const ChatWindow = () => {
               />
             </div>
             <div className="chat-content">
-              <ChatHistory />
+              <ChatHistory contact={to} />
               <Chat
                 key={to.id}
                 contact={to}

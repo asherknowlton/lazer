@@ -1,0 +1,22 @@
+.chat-header {
+  text-align: center;
+  margin: 1rem;
+  font-size: 2rem;
+
+  button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.5rem;
+    background-color: black;
+    color: green;
+    border: green;
+    border-style: solid;
+    border-width: 3px;
+    cursor: pointer;
+  }
+}
+
+.channel-name {
+  cursor: default;
+}

@@ -90,12 +90,31 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const getMessages = async (senderId: string, receiverId: string) => {
+    try {
+      console.log("getMessages called");
+      const { data } = await axios.get("/api/get_messages", {
+        params: {
+          senderId,
+          receiverId,
+        },
+      });
+      if (data.error) {
+        console.log(data.error);
+      }
+      return data.messages;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const value = {
     user: user,
     registerUser: registerUser,
     loginUser: loginUser,
     logoutUser: logoutUser,
     sendMessage: sendMessage,
+    getMessages: getMessages,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

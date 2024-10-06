@@ -4,6 +4,7 @@ import {
   registerUser,
   loginUser,
   sendMessage,
+  getMessages,
   getProfile,
 } from "src/controllers/authController";
 
@@ -20,6 +21,7 @@ router.use(
 router.post("/api/register", registerUser);
 router.post("/api/login", loginUser);
 router.post("/api/send_message", sendMessage);
+router.get("/api/get_messages", getMessages);
 router.get("/api/me", getProfile);
 
 export default router;
