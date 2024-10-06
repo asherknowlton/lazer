@@ -94,6 +94,46 @@ const sendMessage = async (req: Request, res: Response): Promise<any> => {
   }
 };
 
+const getMessages = async (req: Request, res: Response): Promise<any> => {
+  try {
+    const { senderId, receiverId } = req.query;
+    const messages = await MessageModel.find({
+      senderId: senderId,
+      receiverId: receiverId,
+    });
+    if (!messages) {
+      return res.json({
+        error: "no messages found",
+      });
+    } else {
+      console.log(messages.map((message) => message.message));
+      return res.json({ messages: messages });
+    }
+    //check password match
+    // const match = message.password
+    //   ? await comparePasswords(password, message.password)
+    //   : false;
+    // if (match) {
+    //   jwt.sign(
+    //     { email: message?.email, id: message?._id, name: message?.name },
+    //     process.env.JWT_SECRET!,
+    //     {},
+    //     (err, token) => {
+    //       if (err) throw err;
+    //       res.cookie("USER_SESSION", token).json(message);
+    //     }
+    //   );
+    // }
+    // if (!match) {
+    //   res.json({
+    //     error: "password is incorrect",
+    //   });
+    // }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const getProfile = async (req: Request, res: Response): Promise<any> => {
   const { USER_SESSION } = req.cookies;
   if (USER_SESSION) {
@@ -106,4 +146,4 @@ const getProfile = async (req: Request, res: Response): Promise<any> => {
   }
 };
 
-export { registerUser, loginUser, sendMessage, getProfile };
+export { registerUser, loginUser, sendMessage, getMessages, getProfile };

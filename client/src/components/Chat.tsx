@@ -4,7 +4,6 @@ import { BaseEditor, Descendant, createEditor, Node } from "slate";
 import { Slate, Editable, withReact, ReactEditor } from "slate-react";
 import { withHistory } from "slate-history";
 import "assets/css/Chat.scss";
-import lightningBolt from "assets/lightning-bolt.svg";
 
 type CustomElement = { type: "paragraph"; children: CustomText[] };
 type CustomText = { text: string };
@@ -85,7 +84,6 @@ export default function Chat({ contact, content, updateContent }: ChatProps) {
             (op) => "set_selection" !== op.type
           );
           if (isAstChange) {
-            // Serialize the value and save the string value to Local Storage.
             setChatText(serialize(value));
           }
         }}
@@ -97,7 +95,10 @@ export default function Chat({ contact, content, updateContent }: ChatProps) {
           placeholder={`Draft a transmission to ${contact.name}`}
         />
         <button className="beam-button" onClick={handleSubmit}>
-          <img src={lightningBolt} /> Beam to {contact.name}
+          <svg>
+            <use href="/src/assets/icons.svg#lightning-bolt" />
+          </svg>
+          Beam to {contact.name}
         </button>
       </Slate>
     </section>
