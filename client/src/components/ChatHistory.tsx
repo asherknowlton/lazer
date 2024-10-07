@@ -5,7 +5,7 @@ import { useAuth } from "src/hooks/useAuth";
 import "assets/css/ChatHistory.scss";
 
 interface contactI {
-  id: number;
+  id: string;
   name: string;
   email: string;
 }
@@ -37,8 +37,6 @@ const ChatHistory = ({ contact }: Props) => {
 
   return (
     <div className="chat-history">
-      {messagesPending && <div>Loading</div>}
-      {messagesError && <div>Error</div>}
       {!messagesPending && !messagesError && (
         <div>
           {messages.map((message: messageI) => (

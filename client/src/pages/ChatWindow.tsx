@@ -8,7 +8,7 @@ import ChatHeader from "src/components/ChatHeader";
 import { Navigate } from "react-router-dom";
 
 interface contactI {
-  id: number;
+  id: string;
   name: string;
   email: string;
 }
@@ -54,9 +54,9 @@ const ChatWindow = () => {
 };
 
 const contacts: contactI[] = [
-  { id: 0, name: "Taylor", email: "taylor@mail.com" },
-  { id: 1, name: "Alice", email: "alice@mail.com" },
-  { id: 2, name: "Bob", email: "bob@mail.com" },
+  { id: "67044854c3c7f7274493c459", name: "Taylor", email: "taylor@mail.com" },
+  { id: "67044876c3c7f7274493c45a", name: "Alice", email: "alice@mail.com" },
+  { id: "67044881c3c7f7274493c45b", name: "Bob", email: "bob@mail.com" },
 ];
 
 export default ChatWindow;

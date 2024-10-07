@@ -2,7 +2,7 @@ import classNames from "classnames";
 import "assets/css/contactList.scss";
 
 interface contactI {
-  id: number;
+  id: string;
   name: string;
   email: string;
 }

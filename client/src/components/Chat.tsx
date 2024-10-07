@@ -17,7 +17,7 @@ declare module "slate" {
 }
 
 interface contactI {
-  id: number;
+  id: string;
   name: string;
   email: string;
 }

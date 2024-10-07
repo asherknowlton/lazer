@@ -5,7 +5,9 @@
 .chat-history {
   display: flex;
   flex-direction: column-reverse;
-  overflow-y: auto;
+  overflow-y: scroll;
+  scrollbar-color: green black;
+  scrollbar-width: thin;
   border-color: green;
   border-style: solid;
   height: 75vh;
