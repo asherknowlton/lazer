@@ -1,0 +1,13 @@
+.chat-message {
+  padding: 0.5rem;
+}
+
+.message-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.sender-id {
+  font-weight: bold;
+}

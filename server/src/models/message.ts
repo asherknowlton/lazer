@@ -5,7 +5,7 @@ const messageSchema = new Schema(
   {
     senderId: String,
     receiverId: String,
-    message: String,
+    messageText: String,
   },
   { timestamps: true }
 );

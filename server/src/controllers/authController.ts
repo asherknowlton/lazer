@@ -50,8 +50,6 @@ const loginUser = async (req: Request, res: Response): Promise<any> => {
       return res.json({
         error: "no user found",
       });
-    } else {
-      console.log("user found");
     }
     //check password match
     const match = user.password
@@ -69,6 +67,7 @@ const loginUser = async (req: Request, res: Response): Promise<any> => {
       );
     }
     if (!match) {
+      //TODO: notify user of incorrect pw
       res.json({
         error: "password is incorrect",
       });
@@ -80,12 +79,12 @@ const loginUser = async (req: Request, res: Response): Promise<any> => {
 
 const sendMessage = async (req: Request, res: Response): Promise<any> => {
   try {
-    const { senderId, receiverId, message } = req.body;
+    const { senderId, receiverId, messageText } = req.body;
 
     const msg = await MessageModel.create({
       senderId,
       receiverId,
-      message,
+      messageText,
     });
 
     return res.json(msg);
@@ -98,37 +97,40 @@ const getMessages = async (req: Request, res: Response): Promise<any> => {
   try {
     const { senderId, receiverId } = req.query;
     const messages = await MessageModel.find({
-      senderId: senderId,
-      receiverId: receiverId,
+      $or: [
+        {
+          senderId: senderId,
+          receiverId: receiverId,
+        },
+        {
+          senderId: receiverId,
+          receiverId: senderId,
+        },
+      ],
     });
     if (!messages) {
       return res.json({
         error: "no messages found",
       });
     } else {
-      console.log(messages.map((message) => message.message));
       return res.json({ messages: messages });
     }
-    //check password match
-    // const match = message.password
-    //   ? await comparePasswords(password, message.password)
-    //   : false;
-    // if (match) {
-    //   jwt.sign(
-    //     { email: message?.email, id: message?._id, name: message?.name },
-    //     process.env.JWT_SECRET!,
-    //     {},
-    //     (err, token) => {
-    //       if (err) throw err;
-    //       res.cookie("USER_SESSION", token).json(message);
-    //     }
-    //   );
-    // }
-    // if (!match) {
-    //   res.json({
-    //     error: "password is incorrect",
-    //   });
-    // }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getUserData = async (req: Request, res: Response): Promise<any> => {
+  try {
+    const { _id } = req.query;
+    const user = await UserModel.findOne({ _id });
+    if (!user) {
+      return res.json({
+        error: "no user found",
+      });
+    } else {
+      return res.json({ user });
+    }
   } catch (error) {
     console.log(error);
   }
@@ -146,4 +148,11 @@ const getProfile = async (req: Request, res: Response): Promise<any> => {
   }
 };
 
-export { registerUser, loginUser, sendMessage, getMessages, getProfile };
+export {
+  registerUser,
+  loginUser,
+  sendMessage,
+  getMessages,
+  getUserData,
+  getProfile,
+};

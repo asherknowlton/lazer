@@ -1,11 +1,11 @@
 import { Routes, Route } from "react-router-dom";
 
-import Navbar from "./components/Navbar";
-import RegisterForm from "./pages/RegisterForm";
+import Landing from "components/Landing";
+import RegisterForm from "pages/RegisterForm";
 import ChatWindow from "pages/ChatWindow";
-import LoginForm from "./pages/LoginForm";
+import LoginForm from "pages/LoginForm";
 import axios from "axios";
-import { AuthProvider } from "./hooks/useAuth";
+import { AuthProvider } from "hooks/useAuth";
 import "assets/css/App.scss";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
@@ -18,11 +18,10 @@ const App = () => {
   return (
     <AuthProvider>
       <QueryClientProvider client={queryClient}>
-        <Navbar />
         <Routes>
           <Route path="/" element={<ChatWindow />} />
-          <Route path="/register" element={<RegisterForm />} />
-          <Route path="/login" element={<LoginForm />} />
+          <Route path="/register" element={<Landing />} />
+          <Route path="/login" element={<Landing />} />
         </Routes>
       </QueryClientProvider>
     </AuthProvider>

@@ -4,7 +4,6 @@ import {
   useContext,
   createContext,
   ReactNode,
-  SyntheticEvent,
 } from "react";
 import axios from "axios";
 
@@ -19,6 +18,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const auth = useAuth();
 
   const [user, setUser] = useState(auth.user);
+  const [authing, setAuthing] = useState(true);
   // const [errors, setErrors] = useState([]);
   // const [isLoading, setIsLoading] = useState(false);
   //const history = useHistory();
@@ -26,6 +26,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     axios.get("/api/me").then(({ data }) => {
       setUser(data);
+      setAuthing(false);
     });
   }, []);
 
@@ -74,13 +75,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const sendMessage = async (
     senderId: string,
     receiverId: string,
-    message: string
+    messageText: string
   ) => {
     try {
       const { data } = await axios.post("/api/send_message", {
         senderId,
         receiverId,
-        message,
+        messageText,
       });
       if (data.error) {
         console.log(data.error);
@@ -92,7 +93,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const getMessages = async (senderId: string, receiverId: string) => {
     try {
-      console.log("getMessages called");
       const { data } = await axios.get("/api/get_messages", {
         params: {
           senderId,
@@ -108,13 +108,30 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const getUserData = async (_id: string) => {
+    try {
+      const { data } = await axios.get("/api/get_user_data", {
+        params: { _id },
+      });
+      if (data.error) {
+        console.log(data.error);
+      }
+      return data.user;
+    } catch (error) {
+      console.log("getUserData error");
+      console.log(error);
+    }
+  };
+
   const value = {
     user: user,
+    authing: authing,
     registerUser: registerUser,
     loginUser: loginUser,
     logoutUser: logoutUser,
     sendMessage: sendMessage,
     getMessages: getMessages,
+    getUserData: getUserData,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

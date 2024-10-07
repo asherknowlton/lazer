@@ -1,5 +1,5 @@
 import { useState, KeyboardEvent, useMemo } from "react";
-import { useAuth } from "src/hooks/useAuth";
+import { useAuth } from "hooks/useAuth";
 import { BaseEditor, Descendant, createEditor, Node } from "slate";
 import { Slate, Editable, withReact, ReactEditor } from "slate-react";
 import { withHistory } from "slate-history";
