@@ -19,7 +19,7 @@ const ChatHeader = ({ contactName }: Props) => {
     <>
       <div className="chat-header">
         <div className="channel-name">{contactName}</div>
-        <button onClick={handleClick}>Sever Uplink</button>
+        <button onClick={handleClick}>SEVER UPLINK</button>
       </div>
     </>
   );

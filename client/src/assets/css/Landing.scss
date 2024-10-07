@@ -1,0 +1,66 @@
+.nav {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  min-height: 20rem;
+
+  a {
+    font-size: 2rem;
+    margin: 5rem;
+  }
+
+  a:visited {
+    color: green;
+  }
+
+  a:hover {
+    font-weight: bold;
+  }
+}
+
+.auth-form {
+  min-width: 22rem;
+}
+
+.auth-input {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 1rem 0rem;
+
+  input {
+    background-color: black;
+    color: green;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 1.1rem;
+    border: green;
+    border-style: solid;
+    border-width: 3px;
+    padding: 0.75rem 1rem;
+
+    &:focus {
+      outline-color: green;
+      outline-style: dashed;
+      outline-width: 3px;
+      outline-offset: -8px;
+    }
+  }
+}
+
+.auth-button {
+  background-color: black;
+  color: green;
+  width: 100%;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 1.25rem;
+  border: green;
+  border-style: solid;
+  border-width: 3px;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+
+  &:hover {
+    background-color: green;
+    color: black;
+  }
+}

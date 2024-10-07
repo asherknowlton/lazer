@@ -1,10 +1,6 @@
 import { useState, KeyboardEvent, useMemo, useEffect } from "react";
-import {
-  QueryClient,
-  QueryClientProvider,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
+import ChatMessage from "components/ChatMessage";
 import { useAuth } from "src/hooks/useAuth";
 import "assets/css/ChatHistory.scss";
 
@@ -18,7 +14,7 @@ interface messageI {
   _id: string;
   senderId: string;
   receiverId: string;
-  message: string;
+  messageText: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -30,28 +26,23 @@ interface Props {
 const ChatHistory = ({ contact }: Props) => {
   const auth = useAuth();
 
-  const getMessages = async () => {
-    let messages = await auth.getMessages(auth.user.id, contact.id);
-    return messages;
-  };
-
-  const { isPending, isError, data, error } = useQuery({
+  const {
+    isPending: messagesPending,
+    isError: messagesError,
+    data: messages,
+  } = useQuery({
     queryKey: ["getMessages", contact.id],
     queryFn: () => auth.getMessages(auth.user.id, contact.id),
   });
 
-  useEffect(() => {
-    getMessages();
-  }, []);
-
   return (
-    <div className="chat-history" onClick={getMessages}>
-      {isPending && <div>Loading</div>}
-      {isError && <div>Error</div>}
-      {!isPending && !isError && (
+    <div className="chat-history">
+      {messagesPending && <div>Loading</div>}
+      {messagesError && <div>Error</div>}
+      {!messagesPending && !messagesError && (
         <div>
-          {data.map((message: messageI) => (
-            <div key={message._id}>{message.message}</div>
+          {messages.map((message: messageI) => (
+            <ChatMessage key={message._id} message={message} />
           ))}
         </div>
       )}

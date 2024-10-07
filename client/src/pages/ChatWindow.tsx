@@ -5,6 +5,7 @@ import ContactList from "components/ContactList";
 import "assets/css/ChatWindow.scss";
 import ChatHistory from "src/components/ChatHistory";
 import ChatHeader from "src/components/ChatHeader";
+import { Navigate } from "react-router-dom";
 
 interface contactI {
   id: number;
@@ -23,6 +24,7 @@ const ChatWindow = () => {
 
   return (
     <>
+      {auth.authing && <div>Loading</div>}
       {auth.user && (
         <div className="chat-window">
           <ChatHeader contactName={to.name} />
@@ -46,7 +48,7 @@ const ChatWindow = () => {
           </div>
         </div>
       )}
-      {!auth.user && <h1>ya gotta login first ya hoser</h1>}
+      {!auth.authing && !auth.user && <Navigate to="/login" />}
     </>
   );
 };
