@@ -5,7 +5,6 @@ import {
   createContext,
   ReactNode,
 } from "react";
-import axios from "axios";
 
 //TODO: type this
 const AuthContext = createContext<any | null>({ user: null });
@@ -19,15 +18,29 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const [user, setUser] = useState(auth.user);
   const [authing, setAuthing] = useState(true);
-  // const [errors, setErrors] = useState([]);
-  // const [isLoading, setIsLoading] = useState(false);
-  //const history = useHistory();
 
   useEffect(() => {
-    axios.get("/api/me").then(({ data }) => {
-      setUser(data);
-      setAuthing(false);
-    });
+    const fetchUserToken = async () => {
+      try {
+        const response = await fetch("http://localhost:8000/api/me", {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        });
+
+        const user = await response.json();
+        console.log(user);
+        setUser(user);
+        setAuthing(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchUserToken();
   }, []);
 
   const registerUser = async (
@@ -36,33 +49,42 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     password: string
   ) => {
     try {
-      const { data } = await axios.post("/api/register", {
-        name,
-        email,
-        password,
+      const response = await fetch("http://localhost:8000/api/register", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: name,
+          email: email,
+          password: password,
+        }),
       });
-      if (data.error) {
-        console.log(data.error);
-      } else {
-        console.log("registered!");
-      }
+      response.ok && console.log(response);
     } catch (error) {
-      console.log("registerUser error:");
+      //TODO: notify user of error
       console.log(error);
     }
   };
 
   const loginUser = async (email: string, password: string) => {
     try {
-      const { data } = await axios.post("/api/login", {
-        email,
-        password,
+      const response = await fetch("http://localhost:8000/api/login", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
       });
-      if (data.error) {
-        console.log(data.error);
-      }
+      response.ok && console.log(response);
     } catch (error) {
-      console.log("loginUser error");
+      //TODO: notify user of error
       console.log(error);
     }
   };
@@ -78,31 +100,44 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     messageText: string
   ) => {
     try {
-      const { data } = await axios.post("/api/send_message", {
-        senderId,
-        receiverId,
-        messageText,
+      const response = await fetch("http://localhost:8000/api/send_message", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          senderId: senderId,
+          receiverId: receiverId,
+          messageText: messageText,
+        }),
       });
-      if (data.error) {
-        console.log(data.error);
-      }
+      //TODO: response.ok && do something
     } catch (error) {
+      //TODO: notify user of error
       console.log(error);
     }
   };
 
   const getMessages = async (senderId: string, receiverId: string) => {
     try {
-      const { data } = await axios.get("/api/get_messages", {
-        params: {
-          senderId,
-          receiverId,
-        },
-      });
-      if (data.error) {
-        console.log(data.error);
-      }
-      return data.messages;
+      const response = await fetch(
+        "http://localhost:8000/api/get_messages?" +
+          new URLSearchParams({
+            senderId: senderId,
+            receiverId: receiverId,
+          }).toString(),
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const json = await response.json();
+      return json.messages;
     } catch (error) {
       console.log(error);
     }
@@ -110,15 +145,23 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const getUserData = async (_id: string) => {
     try {
-      const { data } = await axios.get("/api/get_user_data", {
-        params: { _id },
-      });
-      if (data.error) {
-        console.log(data.error);
-      }
-      return data.user;
+      const response = await fetch(
+        "http://localhost:8000/api/get_user_data?" +
+          new URLSearchParams({
+            _id: _id,
+          }).toString(),
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const json = await response.json();
+      return json.user;
     } catch (error) {
-      console.log("getUserData error");
       console.log(error);
     }
   };
