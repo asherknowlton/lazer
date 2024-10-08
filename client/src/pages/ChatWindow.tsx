@@ -24,7 +24,13 @@ const ChatWindow = () => {
 
   return (
     <>
-      {auth.authing && <div>Loading</div>}
+      {auth.authing && (
+        <div
+          style={{ display: "flex", justifyContent: "center", width: "100%" }}
+        >
+          Loading
+        </div>
+      )}
       {auth.user && (
         <div className="chat-window">
           <ChatHeader contactName={to.name} />

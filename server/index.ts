@@ -1,6 +1,7 @@
 import express from "express";
 import "dotenv/config";
 import mongoose from "mongoose";
+import cors from "cors";
 import cookieParser from "cookie-parser";
 import authRoutes from "./src/routes/authRoutes";
 
@@ -11,8 +12,14 @@ mongoose
   .then(() => console.log("Database Connected"))
   .catch((err) => console.log("Database not connected", err));
 
+const corsOptions = {
+  credentials: true,
+  origin: "http://localhost:3000",
+};
+
 //middleware
 app.use(express.json());
+app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 

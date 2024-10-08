@@ -33,7 +33,9 @@ const ChatMessage = ({ message }: Props) => {
   return (
     <div className="chat-message">
       <div className="message-header">
-        {userPending && <div className="sender-id">{senderId}</div>}
+        {userPending && (
+          <div className="sender-id">TODO: make a cool skeleton</div>
+        )}
         {user && <div className="sender-id">{user.name}</div>}
         <div>{createdAt}</div>
       </div>

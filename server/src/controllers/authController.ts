@@ -136,7 +136,7 @@ const getUserData = async (req: Request, res: Response): Promise<any> => {
   }
 };
 
-const getProfile = async (req: Request, res: Response): Promise<any> => {
+const getUserFromJwt = async (req: Request, res: Response): Promise<any> => {
   const { USER_SESSION } = req.cookies;
   if (USER_SESSION) {
     jwt.verify(USER_SESSION, process.env.JWT_SECRET!, {}, (err, user) => {
@@ -154,5 +154,5 @@ export {
   sendMessage,
   getMessages,
   getUserData,
-  getProfile,
+  getUserFromJwt,
 };
