@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { UserModel } from "src/models/user";
-import { MessageModel } from "src/models/message";
 import { default as jwt } from "jsonwebtoken";
 import { hashPassword, comparePasswords } from "src/helpers/auth";
 
@@ -77,65 +76,6 @@ const loginUser = async (req: Request, res: Response): Promise<any> => {
   }
 };
 
-const sendMessage = async (req: Request, res: Response): Promise<any> => {
-  try {
-    const { senderId, receiverId, messageText } = req.body;
-
-    const msg = await MessageModel.create({
-      senderId,
-      receiverId,
-      messageText,
-    });
-
-    return res.json(msg);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const getMessages = async (req: Request, res: Response): Promise<any> => {
-  try {
-    const { senderId, receiverId } = req.query;
-    const messages = await MessageModel.find({
-      $or: [
-        {
-          senderId: senderId,
-          receiverId: receiverId,
-        },
-        {
-          senderId: receiverId,
-          receiverId: senderId,
-        },
-      ],
-    });
-    if (!messages) {
-      return res.json({
-        error: "no messages found",
-      });
-    } else {
-      return res.json({ messages: messages });
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const getUserData = async (req: Request, res: Response): Promise<any> => {
-  try {
-    const { _id } = req.query;
-    const user = await UserModel.findOne({ _id });
-    if (!user) {
-      return res.json({
-        error: "no user found",
-      });
-    } else {
-      return res.json({ user });
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 const getUserFromJwt = async (req: Request, res: Response): Promise<any> => {
   const { USER_SESSION } = req.cookies;
   if (USER_SESSION) {
@@ -148,11 +88,4 @@ const getUserFromJwt = async (req: Request, res: Response): Promise<any> => {
   }
 };
 
-export {
-  registerUser,
-  loginUser,
-  sendMessage,
-  getMessages,
-  getUserData,
-  getUserFromJwt,
-};
+export { registerUser, loginUser, getUserFromJwt };
