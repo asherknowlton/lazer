@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 
 const hashPassword = (password: string) => {
   return new Promise((resolve, reject) => {
-    bcrypt.genSalt(12, (err, salt) => {
+    bcrypt.genSalt(15, (err, salt) => {
       if (err) {
         reject(err);
       }

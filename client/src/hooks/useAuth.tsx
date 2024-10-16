@@ -165,6 +165,29 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const searchForUsers = async (searchTerm: string) => {
+    try {
+      const response = await fetch(
+        "http://localhost:8000/api/search_for_users?" +
+          new URLSearchParams({
+            searchTerm: searchTerm,
+          }).toString(),
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const json = await response.json();
+      return json.users;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const value = {
     user: user,
     authing: authing,
@@ -174,6 +197,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     sendMessage: sendMessage,
     getMessages: getMessages,
     getUserData: getUserData,
+    searchForUsers: searchForUsers,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -1,0 +1,77 @@
+.contact-search-section {
+  margin-right: 1rem;
+}
+
+.contact-search-popup {
+  height: 21rem;
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+  border: green;
+  border-style: solid;
+  border-width: 3px 3px 0px 3px;
+  box-sizing: border-box;
+}
+
+.contact-search-input {
+  width: 100%;
+  background-color: black;
+  color: green;
+  border: green;
+  border-style: solid;
+  border-width: 3px;
+  box-sizing: border-box;
+  padding: 0.75rem 1rem;
+
+  &:focus {
+    outline-color: green;
+    outline-style: dashed;
+    outline-width: 3px;
+    outline-offset: -8px;
+  }
+}
+
+.user-list {
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  overflow-y: scroll;
+  scrollbar-color: green black;
+  scrollbar-width: thin;
+}
+
+.user-tile {
+  padding: 0.5rem 0.5rem;
+  cursor: pointer;
+
+  &:hover {
+    background-color: green;
+    color: black;
+  }
+}
+
+.user-name {
+  font-weight: bold;
+  margin: 0px;
+}
+
+.user-email {
+  margin: 0px;
+  margin-left: 0.5rem;
+}
+
+.add-new-contact-button {
+  width: 100%;
+  padding: 0.5rem;
+  background-color: black;
+  color: green;
+  border: green;
+  border-style: solid;
+  border-width: 3px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: green;
+    color: black;
+  }
+}

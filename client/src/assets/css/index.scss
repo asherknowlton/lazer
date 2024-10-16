@@ -17,11 +17,6 @@ body {
   background-color: black;
   color: green;
   font-family: "Courier New", Courier, monospace;
-
-  ::selection {
-    color: black;
-    background: green;
-  }
 }
 
 @media (prefers-color-scheme: light) {

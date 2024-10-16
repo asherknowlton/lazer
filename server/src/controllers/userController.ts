@@ -17,4 +17,31 @@ const getUserData = async (req: Request, res: Response): Promise<any> => {
   }
 };
 
-export { getUserData };
+const searchForUsers = async (req: Request, res: Response): Promise<any> => {
+  try {
+    const { searchTerm } = req.query;
+    const users = await UserModel.find({
+      // $or: [
+      // {
+      $text: { $search: <string>searchTerm },
+      // },
+      // {
+      //   email: searchTerm,
+      // },
+      // ],
+    });
+    if (!users) {
+      console.log("no users found");
+      return res.json({
+        error: "no users found",
+      });
+    } else {
+      console.log(users);
+      return res.json({ users });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { getUserData, searchForUsers };
