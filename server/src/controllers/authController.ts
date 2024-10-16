@@ -61,7 +61,9 @@ const loginUser = async (req: Request, res: Response): Promise<any> => {
         {},
         (err, token) => {
           if (err) throw err;
-          res.cookie("USER_SESSION", token).json(user);
+          res
+            .cookie("USER_SESSION", token, { httpOnly: true, signed: true })
+            .json(user);
         }
       );
     }

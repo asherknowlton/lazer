@@ -13,6 +13,8 @@ const userSchema = new Schema(
   { timestamps: true }
 );
 
+userSchema.index({ name: "text" });
+
 const UserModel = mongoose.model("User", userSchema);
 
 export { UserModel };
