@@ -9,6 +9,7 @@ const userSchema = new Schema(
       unique: true,
     },
     password: String,
+    friends: [String],
   },
   { timestamps: true }
 );

@@ -44,4 +44,35 @@ const searchForUsers = async (req: Request, res: Response): Promise<any> => {
   }
 };
 
-export { getUserData, searchForUsers };
+const addUserToFriends = async (req: Request, res: Response): Promise<any> => {
+  try {
+    const { userId, newFriendId } = req.body;
+
+    const user = await UserModel.findOneAndUpdate(
+      { _id: userId },
+      { $addToSet: { friends: newFriendId } }
+    );
+
+    return res.json(user);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getUsersFriends = async (req: Request, res: Response): Promise<any> => {
+  try {
+    const { _id } = req.query;
+    const user = await UserModel.findOne({ _id });
+    if (!user) {
+      return res.json({
+        error: "no user found",
+      });
+    } else {
+      return res.json({ user });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { getUserData, searchForUsers, addUserToFriends, getUsersFriends };

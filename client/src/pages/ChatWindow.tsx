@@ -21,7 +21,8 @@ const ChatWindow = () => {
   const updateContent = (to: contactI, message: string) => {
     setContentMap(new Map(contentMap).set(to, message));
   };
-
+  console.log(auth.user.id);
+  console.log(auth.getUsersFriends(auth.user.id));
   return (
     <>
       {auth.authing && (

@@ -1,6 +1,8 @@
 import "assets/css/NewContactSearch.scss";
-import { SyntheticEvent, useState } from "react";
+import { SyntheticEvent, useState, useRef } from "react";
 import { useAuth } from "src/hooks/useAuth";
+import { useClickOutside } from "src/hooks/useClickOutside";
+import NewContactTile from "./NewContactTile";
 
 interface user {
   _id: string;
@@ -13,10 +15,17 @@ const NewContactSearch = () => {
   const [searchWindowOpen, setSearchWindowOpen] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [userArray, setUserArray] = useState<user[]>([]);
+  const searchWindowRef = useRef(null);
 
-  const toggleWindowVisibility = () => {
+  const toggleWindowOpen = () => {
     setSearchWindowOpen(!searchWindowOpen);
   };
+
+  const closeWindow = () => {
+    setSearchWindowOpen(false);
+  };
+
+  useClickOutside(searchWindowRef, closeWindow);
 
   const searchForUsers = async (e: SyntheticEvent) => {
     e.preventDefault();
@@ -30,7 +39,7 @@ const NewContactSearch = () => {
   return (
     <section className="contact-search-section">
       {searchWindowOpen && (
-        <div className="contact-search-popup">
+        <div className="contact-search-popup" ref={searchWindowRef}>
           <input
             type="text"
             name="searchTerm"
@@ -42,18 +51,15 @@ const NewContactSearch = () => {
           <div className="user-list">
             {userArray.length > 0 &&
               userArray.map((user) => (
-                <div className="user-tile">
-                  <p className="user-name">{user.name}</p>
-                  <p className="user-email">{user.email}</p>
-                </div>
+                <NewContactTile
+                  user={user}
+                  closeContactSearchWindow={closeWindow}
+                />
               ))}
           </div>
         </div>
       )}
-      <button
-        className="add-new-contact-button"
-        onClick={toggleWindowVisibility}
-      >
+      <button className="add-new-contact-button" onClick={toggleWindowOpen}>
         ADD NEW CONTACT
       </button>
     </section>

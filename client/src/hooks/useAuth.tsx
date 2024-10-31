@@ -188,6 +188,52 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const addUserToFriends = async (userId: string, newFriendId: string) => {
+    try {
+      const response = await fetch(
+        "http://localhost:8000/api/add_user_to_friends",
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId: userId,
+            newFriendId: newFriendId,
+          }),
+        }
+      );
+      //TODO: response.ok && do something
+    } catch (error) {
+      //TODO: notify user of error
+      console.log(error);
+    }
+  };
+
+  const getUsersFriends = async (userId: string) => {
+    try {
+      const response = await fetch(
+        "http://localhost:8000/api/get_users_friends?" +
+          new URLSearchParams({
+            userId: userId,
+          }).toString(),
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const json = await response.json();
+      return json;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const value = {
     user: user,
     authing: authing,
@@ -198,6 +244,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     getMessages: getMessages,
     getUserData: getUserData,
     searchForUsers: searchForUsers,
+    addUserToFriends: addUserToFriends,
+    getUsersFriends: getUsersFriends,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
